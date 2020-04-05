@@ -1,0 +1,6 @@
+development:
+    PORT: 3000
+    MONGODB_URL: "mongodb+srv://your-user-here:your-password-here@your-cluster-url/your-database-here?retryWrites=true&w=majority"
+production:
+    PORT: 3000
+    MONGODB_URL: "mongodb+srv://your-user-here:your-password-here@your-cluster-url/your-database-here?retryWrites=true&w=majority"

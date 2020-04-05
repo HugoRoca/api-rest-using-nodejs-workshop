@@ -1,0 +1,46 @@
+{
+  "name": "01-basic",
+  "version": "1.0.0",
+  "description": "Part 1: The simplest case, an basic api rest demo with pure javascript (no babel, no typescript)",
+  "main": "./src/server.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=stage nodemon ./src/server.js",
+    "start": "cross-env NODE_ENV=production node ./src/server.js",
+    "lint": "eslint src -f stylish",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jriverox/api-rest-using-nodejs-workshop.git"
+  },
+  "keywords": [
+    "api",
+    "rest",
+    "node.js"
+  ],
+  "author": "jhony rivero",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jriverox/api-rest-using-nodejs-workshop/issues"
+  },
+  "homepage": "https://github.com/jriverox/api-rest-using-nodejs-workshop#readme",
+  "dependencies": {
+    "cross-env": "^7.0.2",
+    "koa": "^2.11.0",
+    "koa-bodyparser": "^4.3.0",
+    "koa-json": "^2.0.2",
+    "koa-logger": "^3.2.1",
+    "koa-router": "^8.0.8",
+    "mongoose": "^5.9.7",
+    "yenv": "^2.1.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "nodemon": "^2.0.2"
+  }
+}
