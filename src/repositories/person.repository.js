@@ -1,7 +1,7 @@
-const personModel = require('../models/person.model')
+import PersonModel from '../models/person.model'
 
-module.exports = class PersonRepository {
+export default class PersonRepository {
   async find (filter) {
-    return await personModel.findOne(filter)
+    return await PersonModel.findOne(filter)
   }
 }

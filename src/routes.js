@@ -1,3 +1,3 @@
-const personRouter = require('./routes/person.route')
+import personRouter from './routes/person.route'
 
-module.exports = [personRouter]
+export default [personRouter]

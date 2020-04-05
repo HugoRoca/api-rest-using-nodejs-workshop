@@ -1,5 +1,6 @@
-const mongoose = require('mongoose')
-const schema = new mongoose.Schema({
+import { Schema, model } from 'mongoose'
+
+const schema = new Schema({
   index: Number,
   age: Number,
   eyeColor: String,
@@ -14,6 +15,6 @@ const schema = new mongoose.Schema({
   collection: 'people'
 })
 
-const PersonModel = mongoose.model('PersonModel', schema)
+const PersonModel = model('PersonModel', schema)
 
-module.exports = PersonModel
+export default PersonModel

@@ -64,21 +64,71 @@ npm i koa koa-router koa-bodyparser koa-logger koa-json mongoose yenv cross-env
 ```
 4. Install DEV dependencies
 ```shell
-npm i -D nodemon eslint
+npm i -D @babel/cli @babel/node @babel/core @babel/preset-env @babel/plugin-proposal-export-default-from @babel/plugin-proposal-export-namespace-from rimraf babel-preset-minify eslint babel-eslint
+```
+5. create .babelrc.js file
+```javascript
+// .babelrc.js
+const presets = [
+  [
+    "@babel/preset-env",
+    {
+      targets: {
+        node: true,
+      },
+    },
+  ],
+  "minify",
+]
+const plugins = [
+  "@babel/plugin-proposal-export-default-from",
+  "@babel/plugin-proposal-export-namespace-from",
+]
+export default { presets, plugins }
+
 ```
 5. Initialize linter
 ```shell
 npx eslint --init
 ```
-6. Open project folder with your editor
-7. Create src folder
-8. Edit package.json and add scripts
-```json
-"dev": "cross-env NODE_ENV=stage nodemon ./src/server.js",
-"start": "cross-env NODE_ENV=production node ./src/server.js",
-"lint": "eslint src -f stylish",
+		- select To check syntax, find problems, and enforce code style
+		- select JavaScript modules (import/export)
+		- select None of these
+		- Does your project use TypeScript?: N
+		- Where does your code run? 
+		- Use a popular style guide: Standart
+		- What format do you want your config file to be in?: YAML
+		- Would you like to install them now with npm?: Y
+6. Edit **.eslintrc.yaml** and add: **parser: babel-eslint** 
+```yaml
+env:
+  es6: true
+  node: true
+extends:
+  - standard
+globals:
+  Atomics: readonly
+  SharedArrayBuffer: readonly
+parser: babel-eslint
+parserOptions:
+  ecmaVersion: 2018
+  sourceType: module
+rules: {}
+
 ```
-9. Create env.yaml in root folder with de following text
+7. add **.eslintignore** file in root folder (outside src) edit this file and add: **dist/**
+8. Create src folder
+9. Edit package.json and add scripts
+```json
+"dev": "cross-env NODE_ENV=stage nodemon --exec babel-node ./src/server.js",
+"clean": "rimraf .cache dist reports tmp",
+"prebuild": "npm run clean && npm run lint",
+"build": "babel src --out-dir dist --copy-files && cp env.yaml ./dist",
+"lint": "eslint src -f stylish",
+"start": "cross-env NODE_ENV=stage node ./dist/server.js",
+"start:prd": "cross-env NODE_ENV=production node ./dist/server.js",
+```
+10. Create env.yaml in root folder with de following text
 ```yaml
 development:
     PORT: 3000,
@@ -90,13 +140,14 @@ production:
 Note: replace the url template with your values (your-user-here, your-password-here, your-cluster-url, your-database-here)
 add env.yaml to .gitignore (for security reasons)
 
-10. Models
+11. Models
   * Create src/models folder
   * Create **person.model.js** wuth the following code:
   ```javascript
 // person.model.js
-const mongoose = require('mongoose')
-const schema = new mongoose.Schema({
+import { Schema, model } from 'mongoose'
+
+const schema = new Schema({
   index: Number,
   age: Number,
   eyeColor: String,
@@ -111,33 +162,35 @@ const schema = new mongoose.Schema({
   collection: 'people'
 })
 
-const PersonModel = mongoose.model('PersonModel', schema)
+const PersonModel = model('PersonModel', schema)
 
-module.exports = PersonModel
+export default PersonModel
+
 ```
-
-11. Repositories
+12. Repositories
   * Create src/repositories folder
   * Create **person.repository.js**
 ```javascript
 // person.repository.js
-const personModel = require('../models/person.model')
-module.exports = class PersonRepository {
+import PersonModel from '../models/person.model'
+
+export default class PersonRepository {
   async find (filter) {
-    return await personModel.findOne(filter)
+    return await PersonModel.findOne(filter)
   }
 }
+
 ```
 
-12. Controlleres
+13. Controlleres
   * Create src/controllers folder
   * Create **person.controller.js**
 ```javascript
 // person.controller.js
-const PersonRepository = require('../repositories/person.repository')
+import PersonRepository from '../repositories/person.repository'
 const repository = new PersonRepository()
 
-module.exports = class PersonController {
+export default class PersonController {
   async getByIndex (ctx) {
     const index = ctx.params.index && !isNaN(ctx.params.index) ? parseInt(ctx.params.index) : 0
     if (index > 0) {
@@ -153,39 +206,42 @@ module.exports = class PersonController {
     }
   }
 }
+
 ```
 
-13. Router
+14. Router
   * Create src/routes folder
   * Create **person.route.js**
 ```javascript
 // person.route.js
-const KoaRouter = require('koa-router')
-const PersonController = require('../controllers/person.controller')
+import KoaRouter from 'koa-router'
+import PersonController from '../controllers/person.controller'
 const router = new KoaRouter({ prefix: '/person' })
 const controller = new PersonController()
 
 router.get('/person/byIndex', '/:index', controller.getByIndex)
 
-module.exports = router
+export default router
+
 ```
-14. Create **src/routes.js**
+15. Create **src/routes.js**
 ```javascript
 // routes.js
-const personRouter = require('./routes/person.route')
+import personRouter from './routes/person.route'
 
-module.exports = [personRouter]
+export default [personRouter]
+
 ```
-15. Create **src/server.js**
+16. Create **src/server.js**
 ```javascript
 // server.js
-const Koa = require('koa')
-const json = require('koa-json')
-const logger = require('koa-logger')
-const bodyParser = require('koa-bodyparser')
-const yenv = require('yenv')
-const mongoose = require('mongoose')
-const routes = require('./routes')
+import Koa from 'koa'
+import json from 'koa-json'
+import logger from 'koa-logger'
+import bodyParser from 'koa-bodyparser'
+import yenv from 'yenv'
+import mongoose from 'mongoose'
+import routes from './routes'
 const env = yenv()
 const server = new Koa()
 
@@ -210,9 +266,10 @@ mongoose
   .catch(error => {
     console.error(error)
   })
+
 ```
-16. It's time to test our code, from the terminal run:
-```bash
+17. It's time to test our code, from the terminal run:
+```shell
 npm run dev
 ```
 and then from the browser or postman call localhost:3000/person/1
