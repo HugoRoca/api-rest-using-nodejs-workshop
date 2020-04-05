@@ -1,10 +1,10 @@
-const Koa = require('koa')
-const json = require('koa-json')
-const logger = require('koa-logger')
-const bodyParser = require('koa-bodyparser')
-const yenv = require('yenv')
-const mongoose = require('mongoose')
-const routes = require('./routes')
+import Koa from 'koa'
+import json from 'koa-json'
+import logger from 'koa-logger'
+import bodyParser from 'koa-bodyparser'
+import yenv from 'yenv'
+import mongoose from 'mongoose'
+import routes from './routes'
 const env = yenv()
 const server = new Koa()
 

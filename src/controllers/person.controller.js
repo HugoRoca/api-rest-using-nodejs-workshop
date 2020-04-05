@@ -1,7 +1,7 @@
-const PersonRepository = require('../repositories/person.repository')
+import PersonRepository from '../repositories/person.repository'
 const repository = new PersonRepository()
 
-module.exports = class PersonController {
+export default class PersonController {
   async getByIndex (ctx) {
     const index = ctx.params.index && !isNaN(ctx.params.index) ? parseInt(ctx.params.index) : 0
     if (index > 0) {
