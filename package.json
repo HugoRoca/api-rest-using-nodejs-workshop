@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/jriverox/api-rest-using-nodejs-workshop#readme",
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
     "cross-env": "^7.0.2",
     "koa": "^2.11.0",
     "koa-bodyparser": "^4.3.0",
