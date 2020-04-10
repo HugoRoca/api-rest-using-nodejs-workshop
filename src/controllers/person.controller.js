@@ -1,4 +1,6 @@
 import PersonRepository from '../repositories/person.repository'
+import Query from '../models/query.model'
+
 const repository = new PersonRepository()
 
 export default class PersonController {
@@ -18,10 +20,8 @@ export default class PersonController {
       country: ctx.params.country,
       gender: ctx.params.gender
     }
-    if (ctx.params.eye) {
-      filter.eyeColor = ctx.params.eye
-    }
-    const data = await repository.find(filter)
+    const query = new Query(filter, parseInt(ctx.params.rows), parseInt(ctx.params.page))
+    const data = await repository.find(query)
     if (data) {
       ctx.body = data
     } else {
@@ -30,22 +30,23 @@ export default class PersonController {
   }
 
   async delete (ctx) {
-    try {
-      const index = parseInt(ctx.params.index)
+    const index = parseInt(ctx.params.index)
+    const exists = await repository.exists({ index: index })
+    if (exists) {
       await repository.delete(index)
       ctx.status = 200
       ctx.body = {
         status: 'success'
       }
-    } catch (error) {
-      ctx.throw(500, `An error has ocurred: ${error}`)
+    } else {
+      ctx.throw(404, `There is not a person with index: ${index}`)
     }
   }
 
   async save (ctx) {
     try {
       const data = ctx.request.body
-      await repository.save(data)
+      await repository.save(data, true)
       ctx.status = 201
       ctx.body = {
         status: 'success',

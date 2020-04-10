@@ -1,13 +1,27 @@
 import PersonModel from '../models/person.model'
 
 export default class PersonRepository {
-  async find (filter) {
-    return await PersonModel.findOne(filter)
+  /**
+   *
+   * @param {models/query.model} query - contains filter object with fields and value of query, rowsPerPage as int, page as int and getSkip() method
+   */
+  async find (query) {
+    console.log(query)
+    console.log(query.getSkip())
+    return await PersonModel
+      .find(query.filter)
+      .skip(query.getSkip())
+      .limit(query.rowsPerPage)
   }
 
-  async save (filter, person, upsert = true) {
+  async exists (filter) {
+    return await PersonModel.exists(filter)
+  }
+
+  async save (person, upsert = true) {
+    const filter = { index: person.index }
     const options = { upsert: upsert }
-    await PersonModel.findOneAndUpdate(filter, person, options)
+    await PersonModel.updateOne(filter, person, options)
   }
 
   async delete (index = 0) {

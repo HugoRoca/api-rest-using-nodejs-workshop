@@ -41,9 +41,14 @@ const byQuery = Joi.object()
     gender: Joi
       .string()
       .valid('male', 'female'),
-    eye: Joi
-      .string()
-      .valid('black', 'blue', 'green', 'brown', 'grey')
+    rows: Joi
+      .number()
+      .min(1)
+      .default(10),
+    page: Joi
+      .number()
+      .min(1)
+      .default(1)
   })
 
 export default {

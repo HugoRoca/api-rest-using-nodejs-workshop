@@ -11,7 +11,7 @@ const postValidator = schemaValidator({ body: personSchemas.post })
 const deleteValidator = schemaValidator({ params: personSchemas.deleteByIndex })
 
 router.get('/person/byIndex', '/:index', byIndexValidator, controller.getByIndex)
-router.get('/person/byQuery', '/:country/:gender/:eye?', byQueryValidator, controller.getByQuery)
+router.get('/person/byQuery', '/:country/:gender/:rows?/:page?', byQueryValidator, controller.getByQuery)
 router.post('/person/post', '/', postValidator, controller.save)
 router.delete('/person/delete', '/:index', deleteValidator, controller.delete)
 
