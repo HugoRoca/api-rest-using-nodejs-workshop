@@ -279,57 +279,58 @@ export default class {
 ```
 
 8. Update the src/server.js file, adding the utils/api-docs.js and utils/api-error.js middlewares
-  - 8.1. Add imports:
-   ```javascript
-    import docs from './utils/api-docs'
-    import apiError from './utils/api-error'
-    ```
+- Add imports:
+```javascript
+import docs from './utils/api-docs'
+import apiError from './utils/api-error'
+```
 
-  - 8.2. Add two new middleware to the server
-   ```javascript
-   .use(apiError)
-   .use(docs)
-  ```
-  **See comple server.js file:**
+- Add two new middleware to the server
+```javascript
+.use(apiError)
+.use(docs)
+```
 
-  ```javascript
-  import Koa from 'koa'
-  import json from 'koa-json'
-  import logger from 'koa-logger'
-  import bodyParser from 'koa-bodyparser'
-  import yenv from 'yenv'
-  import mongoose from 'mongoose'
-  import routes from './routes'
-  import docs from './utils/api-docs'
-  import apiError from './utils/api-error'
+**See complete server.js file:**
 
-  const env = yenv()
-  const server = new Koa()
+```javascript
+import Koa from 'koa'
+import json from 'koa-json'
+import logger from 'koa-logger'
+import bodyParser from 'koa-bodyparser'
+import yenv from 'yenv'
+import mongoose from 'mongoose'
+import routes from './routes'
+import docs from './utils/api-docs'
+import apiError from './utils/api-error'
 
+const env = yenv()
+const server = new Koa()
+
+server
+  .use(json())
+  .use(bodyParser())
+  .use(logger())
+  .use(apiError)
+  .use(docs)
+
+routes.map(item => {
   server
-    .use(json())
-    .use(bodyParser())
-    .use(logger())
-    .use(apiError)
-    .use(docs)
+    .use(item.routes())
+    .use(item.allowedMethods())
+})
 
-  routes.map(item => {
-    server
-      .use(item.routes())
-      .use(item.allowedMethods())
+mongoose
+  .connect(env.MONGODB_URL, { useNewUrlParser: true })
+  .then(() => {
+    server.listen(env.PORT, () => {
+      console.log(`Listening on port: ${env.PORT}`)
+    })
   })
-
-  mongoose
-    .connect(env.MONGODB_URL, { useNewUrlParser: true })
-    .then(() => {
-      server.listen(env.PORT, () => {
-        console.log(`Listening on port: ${env.PORT}`)
-      })
-    })
-    .catch(error => {
-      console.error(error)
-    })
-  ```
+  .catch(error => {
+    console.error(error)
+  })
+```
 
 8. It's time to test our code, from the terminal run:
 ```shell
