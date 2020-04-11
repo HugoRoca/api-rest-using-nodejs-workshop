@@ -335,23 +335,6 @@ mongoose
 ```shell
 npm run dev
 ```
-and then from the browser or postman call localhost:3000/person/1
+9. Access to the documentation
 
-You can also test de following:
-POST http://localhost:3000/person/
-{
-	"index" : 1001,
-	"age" : 14,
-	"eyeColor" : "black",
-	"name" : "Camila Rivero",
-	"gender" : "male",
-	"company" : "BCP",
-	"country" : "PE",
-	"email" : "camila@urbanshee.com",
-	"phone" : "+1 (900) 521-2063",
-	"address" : "921 Karweg Place, Connerton, Arkansas, 3696"
-}
-
-DELETE http://localhost:3000/person/1001
-
-GET http://localhost:3000/person/PE/male/green
+http:localhost:3000/docs
