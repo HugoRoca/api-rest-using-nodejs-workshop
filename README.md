@@ -338,3 +338,4 @@ npm run dev
 9. Access to the documentation
 
 http:localhost:3000/docs
+And navigate through all the options
