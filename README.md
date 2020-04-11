@@ -286,45 +286,44 @@ export default class {
   .use(docs)
   See comple server.js file:
 
-```javascript
-import Koa from 'koa'
-import json from 'koa-json'
-import logger from 'koa-logger'
-import bodyParser from 'koa-bodyparser'
-import yenv from 'yenv'
-import mongoose from 'mongoose'
-import routes from './routes'
-import docs from './utils/api-docs'
-import apiError from './utils/api-error'
+  ```javascript
+  import Koa from 'koa'
+  import json from 'koa-json'
+  import logger from 'koa-logger'
+  import bodyParser from 'koa-bodyparser'
+  import yenv from 'yenv'
+  import mongoose from 'mongoose'
+  import routes from './routes'
+  import docs from './utils/api-docs'
+  import apiError from './utils/api-error'
 
-const env = yenv()
-const server = new Koa()
+  const env = yenv()
+  const server = new Koa()
 
-server
-  .use(json())
-  .use(bodyParser())
-  .use(logger())
-  .use(apiError)
-  .use(docs)
-
-routes.map(item => {
   server
-    .use(item.routes())
-    .use(item.allowedMethods())
-})
+    .use(json())
+    .use(bodyParser())
+    .use(logger())
+    .use(apiError)
+    .use(docs)
 
-mongoose
-  .connect(env.MONGODB_URL, { useNewUrlParser: true })
-  .then(() => {
-    server.listen(env.PORT, () => {
-      console.log(`Listening on port: ${env.PORT}`)
+  routes.map(item => {
+    server
+      .use(item.routes())
+      .use(item.allowedMethods())
+  })
+
+  mongoose
+    .connect(env.MONGODB_URL, { useNewUrlParser: true })
+    .then(() => {
+      server.listen(env.PORT, () => {
+        console.log(`Listening on port: ${env.PORT}`)
+      })
     })
-  })
-  .catch(error => {
-    console.error(error)
-  })
-
-```
+    .catch(error => {
+      console.error(error)
+    })
+  ```
 
 8. It's time to test our code, from the terminal run:
 ```shell
