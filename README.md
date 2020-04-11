@@ -279,14 +279,18 @@ export default class {
 ```
 
 8. Update the src/server.js file, adding the utils/api-docs.js and utils/api-error.js middlewares
-  8.1. Add imports:
-  import docs from './utils/api-docs'
-  import apiError from './utils/api-error'
+  - 8.1. Add imports:
+   ```javascript
+    import docs from './utils/api-docs'
+    import apiError from './utils/api-error'
+    ```
 
-  8.2. Add two new middleware to the server
-  .use(apiError)
-  .use(docs)
-  See comple server.js file:
+  - 8.2. Add two new middleware to the server
+   ```javascript
+   .use(apiError)
+   .use(docs)
+  ```
+  **See comple server.js file:**
 
   ```javascript
   import Koa from 'koa'
