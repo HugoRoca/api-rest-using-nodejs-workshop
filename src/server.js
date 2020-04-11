@@ -5,6 +5,9 @@ import bodyParser from 'koa-bodyparser'
 import yenv from 'yenv'
 import mongoose from 'mongoose'
 import routes from './routes'
+import docs from './utils/api-docs'
+import apiError from './utils/api-error'
+
 const env = yenv()
 const server = new Koa()
 
@@ -12,6 +15,8 @@ server
   .use(json())
   .use(bodyParser())
   .use(logger())
+  .use(apiError)
+  .use(docs)
 
 routes.map(item => {
   server

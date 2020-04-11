@@ -1,0 +1,157 @@
+swagger: '2.0'
+info:
+  title: API Rest example using node.js and koa.js
+  version: '1.0'
+  description: Basic API Rest example using koa, babel, mongoose and relevant technologies
+host: api-rest-using-nodejs-workshop
+basePath: /
+schemes:
+  - http
+  - https
+paths:
+  /person/{country}/{gender}/{rows}/{page}:
+    get:
+      tags:
+        - Person
+        - People
+      summary: 'get a list of people by country iso two letter code, gender (male or female) and eye color (optional)'
+      parameters:
+        - in: path
+          name: country
+          type: string
+          required: true
+          description: 'iso two letter code of country, for example: PE, US, CL'
+        - in: path
+          name: gender
+          type: string
+          required: true
+          enum:
+            - male
+            - female
+          description: 'gender of person that you can filter by'
+        - in: path
+          name: rows
+          type: integer
+          required: true
+          description: 'rows per page'
+          default: 10
+        - in: path
+          name: page
+          type: integer
+          required: true
+          description: 'page number'
+          default: 1
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            title: People
+            type: array
+            items:
+              $ref: '#/definitions/Person'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+  /person:
+    post:
+      summary: 'Allows create or update a person'
+      responses:
+        '200':
+          description: Updated
+          schema:
+            title: Person
+            type: object
+        '201':
+          description: Created
+          schema:
+            title: Person
+            type: object
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+      deprecated: false
+  /person/{index}:
+    delete:
+      summary: 'Allows delete a person by specified index'
+      parameters:
+        - in: path
+          name: index
+          type: integer
+          required: true
+          description: 'unique index number of person'
+      responses:
+        '200':
+          description: OK
+          schema:
+            title: Person
+            type: object
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+
+      deprecated: false
+definitions:
+  Person:
+    description: 'Represent a person info'
+    type: object
+    properties:
+      index:
+        description: 'unique integer value for the person'
+        type: integer
+      age:
+        description: 'age of person'
+        type: integer
+      eyeColor:
+        type: string
+      name:
+        type: string
+      gender:
+        type: string
+      company:
+        type: string
+      country:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+      address:
+        type: string
+  Error:
+    type: object
+    properties:
+      title:
+        type: string
+      type:
+        type: string
+      detail:
+        type: string
+      instance:
+        type: string
+      invalidparams:
+        type: string
