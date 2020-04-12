@@ -1,4 +1,4 @@
-<h1 align="center">Microservice Nodejs Template</h1>
+<h1 align="center">API Rest Nodejs Template</h1>
 
 <h4 align="center">
 Node.js + Koa.js + Mongoose + Babel + EsLint
@@ -78,9 +78,13 @@ We'll create the API Documentation using Swagger (Open API). The result will be 
 ## Implementations Steps
 **Notes**: This is the Part 4 of the workshop, the following steps update the codebase of previous part.
 The procedure that I've followed to create this new branch was:
+
 1. Once the branch part-3 is finished:
+
   1.1. commit all my code and push them
-  1.2. After commit and push, merge part-2 into master
+
+  1.2. After commit and push, merge part-3 into master
+
   ```shell
   git checkout master
   git merge part-3
