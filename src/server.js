@@ -7,9 +7,11 @@ import mongoose from 'mongoose'
 import routes from './routes'
 import docs from './utils/api-docs'
 import apiError from './utils/api-error'
+import LogManager from './utils/logging/log-manager'
 
 const env = yenv()
 const server = new Koa()
+const logManager = new LogManager()
 
 server
   .use(json())
@@ -22,6 +24,13 @@ routes.map(item => {
   server
     .use(item.routes())
     .use(item.allowedMethods())
+})
+
+server.on('error', (err, ctx) => {
+  console.error('logging error')
+  const isOperationalError = logManager.error(err)
+  // if (!isOperationalError) {
+  // }
 })
 
 mongoose

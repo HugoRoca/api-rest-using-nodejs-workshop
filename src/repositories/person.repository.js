@@ -1,6 +1,11 @@
 import PersonModel from '../models/person.model'
 
 export default class PersonRepository {
+
+  async findOne (filter) {
+    return await PersonModel.findOne(filter)
+  }
+
   /**
    *
    * @param {models/query.model} query - contains filter object with fields and value of query, rowsPerPage as int, page as int and getSkip() method

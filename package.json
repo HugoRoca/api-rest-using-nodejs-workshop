@@ -39,6 +39,8 @@
     "mongoose": "^5.9.7",
     "swagger2": "^2.0.0",
     "swagger2-koa": "^2.0.0",
+    "winston": "^3.2.1",
+    "winston-elasticsearch": "^0.8.8",
     "yenv": "^2.1.1"
   },
   "devDependencies": {

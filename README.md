@@ -6,13 +6,14 @@ Node.js + Koa.js + Mongoose + Babel + EsLint
 
 # Table of Contents
 
-- [Introduction](#introduction)
-- [Use Cases](#use-cases)
-  - [Branches](#branches)
-- [Stack](#stack)
-- [Project Structure](#project-structure)
-- [Purpose of this Part](#purpose-of-this-part)
-- [Implementations Steps](#implementations-steps)
+- [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [Use cases](#use-cases)
+    - [Branches](#branches)
+  - [Stack](#stack)
+  - [Project structure](#project-structure)
+  - [Purpose of this Part](#purpose-of-this-part)
+  - [Implementations Steps](#implementations-steps)
 
 ## Introduction
 This repo tries to help understand how to build an REST API using node.js. It implements several scenarios through different branches. 
@@ -24,8 +25,8 @@ Each branch represents a step in the evolution of entire final project.
 - **part-1**: The simplest case, an basic api rest demo with pure javascript (no babel, no typescript), but using linter eslint.
 - **part-2**: Implementing the code using babel
 - **part-3**: It's time to validate http request from body and path params
-- **part-4**: THIS BRANCH Documenting our API with open api (swagger)
-- **part-5**: Improve error handling and logging
+- **part-4**: Documenting our API with open api (swagger)
+- **part-5**: THIS BRANCH Improve error handling and logging
 - **part-6**: Add unit testing
 - **part-7**: Secure our API
 - **part-8**: Improving our API with other configurations

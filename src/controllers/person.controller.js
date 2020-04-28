@@ -1,5 +1,6 @@
 import PersonRepository from '../repositories/person.repository'
 import Query from '../models/query.model'
+import errorFactory from '../utils/logging/error-factory'
 
 const repository = new PersonRepository()
 
@@ -7,11 +8,13 @@ export default class PersonController {
   async getByIndex (ctx) {
     const index = parseInt(ctx.params.index)
     const filter = { index: index }
-    const data = await repository.find(filter)
+    const data = await repository.findOne(filter)
     if (data) {
       ctx.body = data
     } else {
-      ctx.throw(404, `There is no person with index number: ${index}`)
+      // ctx.throw(400, `There is no person with index number: ${index}`)
+      // throw errorFactory.NotFoundError(`There is no person with index number: ${index}`)
+      throw errorFactory.UnknownError(`There is no person with index number: ${index}`)
     }
   }
 
@@ -25,7 +28,7 @@ export default class PersonController {
     if (data) {
       ctx.body = data
     } else {
-      ctx.throw(404, `There is no person with coountry: ${ctx.params.country}, gender: ${ctx.params.gender}`)
+      ctx.throw(400, `There is no person with coountry: ${ctx.params.country}, gender: ${ctx.params.gender}`)
     }
   }
 
@@ -39,21 +42,17 @@ export default class PersonController {
         status: 'success'
       }
     } else {
-      ctx.throw(404, `There is not a person with index: ${index}`)
+      ctx.throw(400, `There is not a person with index: ${index}`)
     }
   }
 
   async save (ctx) {
-    try {
-      const data = ctx.request.body
-      await repository.save(data, true)
-      ctx.status = 201
-      ctx.body = {
-        status: 'success',
-        data: data
-      }
-    } catch (error) {
-      ctx.throw(500, `An error has ocurred: ${error}`)
+    const data = ctx.request.body
+    await repository.save(data, true)
+    ctx.status = 201
+    ctx.body = {
+      status: 'success',
+      data: data
     }
   }
 }
